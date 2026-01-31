@@ -1,0 +1,21 @@
+---
+- name: Setup Apache Web Server
+  hosts: all
+  become: yes
+  tasks:
+    - name: Ensure Apache is installed
+      apt:
+        name: apache2
+        state: latest
+        update_cache: yes
+
+    - name: Deploy custom index.html
+      copy:
+        content: "<h1>Welcome to Pritamsinh's DevOps Portfolio</h1><p>Deployed via Ansible on AWS</p>"
+        dest: /var/www/html/index.html
+
+    - name: Ensure Apache is running
+      service:
+        name: apache2
+        state: started
+        enabled: yes
